@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.env
+fund_report.txt

@@ -1,0 +1,19 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# environment files
+.env
+.venv/
+venv/
+
+# generated reports
+fund_report.txt
+
+# study materials
+*.pdf
+*.pptx
+*.docx
+
+# temporary files
+.DS_Store
