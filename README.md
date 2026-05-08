@@ -1,21 +1,3 @@
-# Python Calculator
+# Python Learning Projects
 
-这是我的第一个 Python 学习项目。
-
-## 功能
-
-- 加法
-- 减法
-- 乘法
-- 除法
-- 查看历史记录
-- 除以 0 判断
-
-## 学到的内容
-
-- 函数
-- while 循环
-- if / elif / else 判断
-- 列表 append
-- for 循环
-- f-string 格式化字符串
+这是我的 Python 学习项目仓库，用来记录我在学习 Python 过程中完成的小项目和练习。
