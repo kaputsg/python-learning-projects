@@ -430,7 +430,7 @@ def save_report_to_txt():
     filename = "fund_report.txt"
 
     try:
-        with open(filename, "w", encoding="utf-8") as file:
+        with open(filename, "a", encoding="utf-8") as file:
             file.write(report_text)
 
         print(f"报告已保存到：{filename}")
