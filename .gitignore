@@ -17,3 +17,13 @@ fund_report.txt
 
 # temporary files
 .DS_Store
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local data
+accounting_project/records.json
+
+# Environment
+.env
