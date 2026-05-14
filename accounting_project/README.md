@@ -33,3 +33,51 @@ V2 在 V1 的基础上进行了代码结构升级：
 if __name__ == "__main__":
     system = AccountingSystem()
     system.run()
+
+### V3 数据库版本
+
+V3 在 V2 面向对象版本的基础上，将数据保存方式从 JSON 文件升级为 SQLite 数据库。
+
+### 新增功能
+
+- 使用 SQLite 数据库保存记账记录
+- 程序启动时自动创建 records 表
+- 添加收入记录
+- 添加支出记录
+- 查看所有记录
+- 查看余额统计
+- 根据 ID 删除记录
+- 根据 ID 修改记录
+- 按日期查询记录
+- 按分类统计支出
+- 按日期范围查询记录
+- 按月份统计收入、支出和余额
+
+### 使用到的技术
+
+- sqlite3
+- CREATE TABLE
+- INSERT
+- SELECT
+- SUM
+- DELETE
+- UPDATE
+- GROUP BY
+- BETWEEN
+- LIKE
+- datetime
+- pathlib
+- 面向对象编程
+
+### 文件说明
+
+- `accounting_v1.py`：函数版本，使用 JSON 保存数据
+- `accounting_v2.py`：面向对象版本，使用 JSON 保存数据
+- `accounting_v3.py`：数据库版本，使用 SQLite 保存数据
+
+### 本地数据文件
+
+- `accounting.db` 是本地数据库文件
+- `records.json` 是 V1 / V2 的本地数据文件
+
+这两个文件包含本地数据，不上传到 GitHub。
