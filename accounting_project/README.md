@@ -33,6 +33,7 @@ V2 在 V1 的基础上进行了代码结构升级：
 if __name__ == "__main__":
     system = AccountingSystem()
     system.run()
+```
 
 ### V3 数据库版本
 
@@ -81,3 +82,37 @@ V3 在 V2 面向对象版本的基础上，将数据保存方式从 JSON 文件�
 - `records.json` 是 V1 / V2 的本地数据文件
 
 这两个文件包含本地数据，不上传到 GitHub。
+
+### V4 模块化版本
+
+V4 在 V3 SQLite 数据库版本的基础上，将项目从单文件结构升级为多文件模块化结构。
+
+### V4 新增功能
+
+- 使用 `main.py` 作为程序入口
+- 使用 `database.py` 管理数据库连接和 SQL 执行
+- 使用 `utils.py` 管理通用工具函数
+- 使用 `accounting_system.py` 管理记账系统主逻辑
+- 支持关键词搜索记录
+- 支持按金额范围查询记录
+- 支持导出 CSV 报表
+- 支持备份 SQLite 数据库
+
+### V4 文件说明
+
+- `main.py`：程序入口
+- `database.py`：数据库管理模块
+- `utils.py`：工具函数模块
+- `accounting_system.py`：主业务逻辑模块
+- `accounting_v1.py`：V1 函数版本
+- `accounting_v2.py`：V2 面向对象 JSON 版本
+- `accounting_v3.py`：V3 SQLite 单文件版本
+
+### 本地数据文件
+
+以下文件或文件夹只用于本地运行，不上传到 GitHub：
+
+- `accounting.db`
+- `records.json`
+- `accounting_report.csv`
+- `backups/`

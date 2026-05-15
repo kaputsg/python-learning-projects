@@ -1,14 +1,7 @@
-records.json
-__pycache__/
-*.pyc
-.env
-accounting_project/accounting.db
-accounting_project/records.json
-__pycache__/
-*.pyc
-.env
 accounting.db
 records.json
+accounting_report.csv
+backups/
 __pycache__/
 *.pyc
 .env
