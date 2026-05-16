@@ -50,6 +50,19 @@ class DatabaseManager:
         conn.commit()
         conn.close()
 
+    def insert_record(self, sql, params=()):
+        conn = sqlite3.connect(DB_NAME)
+        cursor = conn.cursor()
+
+        cursor.execute(sql, params)
+        conn.commit()
+
+        new_id = cursor.lastrowid
+
+        conn.close()
+
+        return new_id
+
     def fetch_all(self, sql, params=()):
         conn = sqlite3.connect(DB_NAME)
         cursor = conn.cursor()
@@ -71,3 +84,4 @@ class DatabaseManager:
         conn.close()
 
         return result
+    

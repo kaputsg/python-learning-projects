@@ -116,3 +116,49 @@ V4 在 V3 SQLite 数据库版本的基础上，将项目从单文件结构升级
 - `records.json`
 - `accounting_report.csv`
 - `backups/`
+
+### V5 FastAPI 后端版本
+
+V5 在 V4 模块化命令行版本的基础上，新增 FastAPI 后端接口，使记账系统可以通过 HTTP API 访问。
+
+### V5 新增功能
+
+- 使用 FastAPI 创建后端服务
+- 使用 Uvicorn 运行 API 服务
+- 支持自动生成接口文档 `/docs`
+- 支持查看所有记录接口
+- 支持添加记录接口
+- 支持修改记录接口
+- 支持删除记录接口
+- 支持余额统计接口
+- 支持按月份统计收支
+- 支持按分类统计支出
+- 支持关键词搜索记录
+- 支持按日期查询记录
+- 支持按日期范围查询记录
+- 支持按金额范围查询记录
+- 添加记录后返回新记录 ID
+
+### V5 API 接口
+
+| 方法 | 路径 | 功能 |
+|---|---|---|
+| GET | `/` | 测试 API 是否运行 |
+| GET | `/records` | 查看所有记录 |
+| POST | `/records` | 添加记录 |
+| PUT | `/records/{record_id}` | 修改指定 ID 的记录 |
+| DELETE | `/records/{record_id}` | 删除指定 ID 的记录 |
+| GET | `/summary` | 查看总收入、总支出和余额 |
+| GET | `/summary/month` | 按月份统计收支 |
+| GET | `/summary/expense-by-category` | 按分类统计支出 |
+| GET | `/records/search` | 按关键词搜索记录 |
+| GET | `/records/by-date` | 按日期查询记录 |
+| GET | `/records/by-date-range` | 按日期范围查询记录 |
+| GET | `/records/by-amount-range` | 按金额范围查询记录 |
+
+### 运行 FastAPI 服务
+
+先安装依赖：
+
+```bash
+pip install -r requirements.txt
