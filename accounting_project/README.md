@@ -162,3 +162,53 @@ V5 在 V4 模块化命令行版本的基础上，新增 FastAPI 后端接口，�
 
 ```bash
 pip install -r requirements.txt
+
+### V6 前端页面版本
+
+V6 在 V5 FastAPI 后端接口版本的基础上，新增前端页面，通过 HTML、CSS 和 JavaScript 调用后端 API，实现一个可视化的个人记账系统页面。
+
+### V6 新增功能
+
+- 新增 `frontend/index.html` 前端页面
+- 使用 `fetch()` 调用 FastAPI 后端接口
+- 页面自动加载总览统计
+- 页面自动加载所有记账记录
+- 支持在网页中添加收入和支出记录
+- 支持在网页中修改记录
+- 支持在网页中删除记录
+- 支持关键词搜索记录
+- 支持按日期范围筛选记录
+- 支持按金额范围筛选记录
+- 支持月度收支统计
+- 支持分类支出统计
+- 金额统一保留两位小数
+- 页面采用简约科技风格设计
+
+### V6 使用到的技术
+
+- HTML
+- CSS
+- JavaScript
+- fetch API
+- DOM 操作
+- FastAPI
+- SQLite
+- CORS
+- 前后端分离基础思想
+
+### V6 文件说明
+
+- `api.py`：FastAPI 后端接口
+- `database.py`：数据库管理模块
+- `utils.py`：工具函数模块
+- `accounting_system.py`：命令行业务逻辑模块
+- `main.py`：命令行版本入口
+- `frontend/index.html`：前端页面
+- `requirements.txt`：项目依赖文件
+
+### 运行方式
+
+先启动后端服务：
+
+```bash
+uvicorn api:app --reload

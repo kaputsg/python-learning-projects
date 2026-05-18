@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人记账系统 V6</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                         "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f7;
+            color: #1d1d1f;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e5e5e7;
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-text {
+            font-size: 14px;
+            color: #6e6e73;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px 60px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 36px 0 18px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            margin-top: 14px;
+            font-size: 18px;
+            color: #6e6e73;
+            line-height: 1.7;
+        }
+
+        .section {
+            margin-top: 28px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: -0.3px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e5e7;
+            border-radius: 22px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin: 0 0 16px;
+            font-size: 22px;
+            letter-spacing: -0.3px;
+        }
+
+        .card h3 {
+            margin: 18px 0 12px;
+            font-size: 18px;
+            letter-spacing: -0.2px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .summary-item {
+            background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+            border: 1px solid #ededf0;
+            border-radius: 20px;
+            padding: 22px;
+            min-height: 130px;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #6e6e73;
+            margin-bottom: 10px;
+        }
+
+        .summary-value {
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 14px;
+            color: #6e6e73;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            background: #fff;
+            font-size: 15px;
+            color: #1d1d1f;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #0071e3;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #0071e3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0066cc;
+        }
+
+        .btn-secondary {
+            background: #f5f5f7;
+            color: #1d1d1f;
+            border: 1px solid #d2d2d7;
+        }
+
+        .btn-secondary:hover {
+            background: #ebebed;
+        }
+
+        .btn-danger {
+            background: #ff3b30;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e0352b;
+        }
+
+        .message {
+            margin-top: 14px;
+            font-size: 14px;
+            color: #6e6e73;
+        }
+
+        .message.success {
+            color: #0f8a2b;
+        }
+
+        .message.error {
+            color: #c62828;
+        }
+
+        .message.info {
+            color: #6e6e73;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 18px;
+            border: 1px solid #e5e5e7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            text-align: center;
+            border-bottom: 1px solid #f0f0f2;
+            font-size: 14px;
+        }
+
+        th {
+            background: #fbfbfc;
+            color: #6e6e73;
+            font-weight: 600;
+        }
+
+        tr:hover td {
+            background: #fcfcfd;
+        }
+
+        .table-actions {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .stat-table-wrap {
+            overflow-x: auto;
+            border-radius: 18px;
+            border: 1px solid #e5e5e7;
+            margin-top: 14px;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        @media (max-width: 900px) {
+            .summary-grid,
+            .grid-2,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .container {
+                padding: 24px 16px 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <div class="brand">个人记账系统</div>
+            <div class="nav-text">V6 前端页面优化版</div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>简单、清晰、专注</h1>
+            <p>
+                用简约的界面管理你的收入与支出。<br>
+                基于 FastAPI + SQLite + JavaScript 构建的个人记账系统。
+            </p>
+        </section>
+
+        <section class="section">
+            <div class="section-title">总览</div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-label">总收入</div>
+                    <div class="summary-value" id="income-total">0.00</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">总支出</div>
+                    <div class="summary-value" id="expense-total">0.00</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">当前余额</div>
+                    <div class="summary-value" id="balance-total">0.00</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section grid-2">
+            <div class="card">
+                <h2 id="form-title">添加记账记录</h2>
+                <input type="hidden" id="edit-record-id">
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="record-type">类型</label>
+                        <select id="record-type">
+                            <option value="收入">收入</option>
+                            <option value="支出">支出</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="record-amount">金额</label>
+                        <input type="number" id="record-amount" placeholder="请输入金额">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="record-category">分类</label>
+                        <input type="text" id="record-category" placeholder="例如：吃饭、工资">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="record-note">备注</label>
+                        <input type="text" id="record-note" placeholder="可选">
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-primary" onclick="saveRecord()">保存记录</button>
+                    <button class="btn-secondary" onclick="cancelEdit()">取消修改</button>
+                </div>
+
+                <div id="add-message" class="message info">请输入记账信息</div>
+            </div>
+
+            <div class="card">
+                <h2>搜索与筛选</h2>
+
+                <h3>关键词搜索</h3>
+                <div class="form-grid">
+                    <div class="input-group full">
+                        <label for="search-keyword">关键词</label>
+                        <input type="text" id="search-keyword" placeholder="例如：吃饭、工资、地铁">
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-primary" onclick="searchRecords()">搜索</button>
+                    <button class="btn-secondary" onclick="loadRecords()">显示全部记录</button>
+                </div>
+
+                <h3>按日期范围筛选</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="start-date">开始日期</label>
+                        <input type="date" id="start-date">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="end-date">结束日期</label>
+                        <input type="date" id="end-date">
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-secondary" onclick="filterByDateRange()">按日期范围筛选</button>
+                </div>
+
+                <h3>按金额范围筛选</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="min-amount">最小金额</label>
+                        <input type="number" id="min-amount" placeholder="例如：10">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="max-amount">最大金额</label>
+                        <input type="number" id="max-amount" placeholder="例如：100">
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-secondary" onclick="filterByAmountRange()">按金额范围筛选</button>
+                </div>
+
+                <div id="search-message" class="message info">你可以使用关键词搜索记录</div>
+                <div id="filter-message" class="message info">你可以按日期范围或金额范围筛选记录</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="card">
+                <h2>所有记账记录</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>日期</th>
+                                <th>类型</th>
+                                <th>金额</th>
+                                <th>分类</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="records-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="section grid-2">
+            <div class="card">
+                <h2>月度统计</h2>
+                <div class="form-grid">
+                    <div class="input-group full">
+                        <label for="summary-month">月份</label>
+                        <input type="month" id="summary-month">
+                    </div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-primary" onclick="loadMonthSummary()">查看月度统计</button>
+                </div>
+
+                <div id="month-summary" class="message info">暂无月度统计数据</div>
+            </div>
+
+            <div class="card">
+                <h2>分类支出统计</h2>
+                <div class="button-row">
+                    <button class="btn-primary" onclick="loadExpenseByCategory()">查看分类支出统计</button>
+                </div>
+
+                <div class="stat-table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>分类</th>
+                                <th>总支出</th>
+                            </tr>
+                        </thead>
+                        <tbody id="category-summary-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer-note">
+            Personal Accounting System · V6 Frontend UI Optimized
+        </div>
+    </main>
+
+    <script>
+        const API_BASE_URL = "http://127.0.0.1:8000";
+
+        function formatMoney(value) {
+            return Number(value).toFixed(2);
+        }
+
+        function setMessage(id, text, type = "info") {
+            const element = document.getElementById(id);
+            element.className = `message ${type}`;
+            element.innerText = text;
+        }
+
+        function clearForm() {
+            document.getElementById("edit-record-id").value = "";
+            document.getElementById("record-type").value = "收入";
+            document.getElementById("record-amount").value = "";
+            document.getElementById("record-category").value = "";
+            document.getElementById("record-note").value = "";
+            document.getElementById("form-title").innerText = "添加记账记录";
+        }
+
+        function cancelEdit() {
+            clearForm();
+            setMessage("add-message", "已取消修改", "info");
+        }
+
+        function startEditRecord(id, type, amount, category, note) {
+            document.getElementById("edit-record-id").value = id;
+            document.getElementById("record-type").value = type;
+            document.getElementById("record-amount").value = amount;
+            document.getElementById("record-category").value = category;
+            document.getElementById("record-note").value = note;
+
+            document.getElementById("form-title").innerText = `修改记录 ID：${id}`;
+            setMessage("add-message", "正在修改记录，修改后点击保存记录", "info");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        function renderRecords(records) {
+            const tbody = document.getElementById("records-body");
+            tbody.innerHTML = "";
+
+            if (records.length === 0) {
+                const emptyRow = document.createElement("tr");
+                emptyRow.innerHTML = `<td colspan="7">暂无记录</td>`;
+                tbody.appendChild(emptyRow);
+                return;
+            }
+
+            for (const record of records) {
+                const row = document.createElement("tr");
+
+                const idTd = document.createElement("td");
+                idTd.innerText = record.id;
+
+                const dateTd = document.createElement("td");
+                dateTd.innerText = record.date;
+
+                const typeTd = document.createElement("td");
+                typeTd.innerText = record.type;
+
+                const amountTd = document.createElement("td");
+                amountTd.innerText = formatMoney(record.amount);
+
+                const categoryTd = document.createElement("td");
+                categoryTd.innerText = record.category;
+
+                const noteTd = document.createElement("td");
+                noteTd.innerText = record.note;
+
+                const actionTd = document.createElement("td");
+                const actionWrap = document.createElement("div");
+                actionWrap.className = "table-actions";
+
+                const editBtn = document.createElement("button");
+                editBtn.className = "btn-secondary";
+                editBtn.innerText = "修改";
+                editBtn.onclick = function () {
+                    startEditRecord(
+                        record.id,
+                        record.type,
+                        record.amount,
+                        record.category,
+                        record.note
+                    );
+                };
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.className = "btn-danger";
+                deleteBtn.innerText = "删除";
+                deleteBtn.onclick = function () {
+                    deleteRecord(record.id);
+                };
+
+                actionWrap.appendChild(editBtn);
+                actionWrap.appendChild(deleteBtn);
+                actionTd.appendChild(actionWrap);
+
+                row.appendChild(idTd);
+                row.appendChild(dateTd);
+                row.appendChild(typeTd);
+                row.appendChild(amountTd);
+                row.appendChild(categoryTd);
+                row.appendChild(noteTd);
+                row.appendChild(actionTd);
+
+                tbody.appendChild(row);
+            }
+        }
+
+        async function loadSummary() {
+            const response = await fetch(`${API_BASE_URL}/summary`);
+            const data = await response.json();
+
+            document.getElementById("income-total").innerText = formatMoney(data.income_total);
+            document.getElementById("expense-total").innerText = formatMoney(data.expense_total);
+            document.getElementById("balance-total").innerText = formatMoney(data.balance);
+        }
+
+        async function loadRecords() {
+            const response = await fetch(`${API_BASE_URL}/records`);
+            const data = await response.json();
+
+            renderRecords(data.records);
+            setMessage("search-message", "已显示全部记录", "info");
+        }
+
+        async function saveRecord() {
+            const editRecordId = document.getElementById("edit-record-id").value;
+
+            const type = document.getElementById("record-type").value;
+            const amount = Number(document.getElementById("record-amount").value);
+            const category = document.getElementById("record-category").value.trim();
+            const note = document.getElementById("record-note").value.trim();
+
+            if (amount <= 0) {
+                setMessage("add-message", "金额必须大于 0", "error");
+                return;
+            }
+
+            if (category === "") {
+                setMessage("add-message", "分类不能为空", "error");
+                return;
+            }
+
+            let url = `${API_BASE_URL}/records`;
+            let method = "POST";
+            let bodyData = {
+                type: type,
+                amount: amount,
+                category: category,
+                note: note
+            };
+
+            if (editRecordId !== "") {
+                url = `${API_BASE_URL}/records/${editRecordId}`;
+                method = "PUT";
+                bodyData = {
+                    amount: amount,
+                    category: category,
+                    note: note
+                };
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bodyData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                if (editRecordId === "") {
+                    setMessage("add-message", `添加成功，新记录 ID：${data.record.id}`, "success");
+                } else {
+                    setMessage("add-message", `修改成功，记录 ID：${editRecordId}`, "success");
+                }
+
+                clearForm();
+                loadSummary();
+                loadRecords();
+                loadExpenseByCategory();
+            } else {
+                setMessage("add-message", data.detail, "error");
+            }
+        }
+
+        async function deleteRecord(recordId) {
+            const confirmDelete = confirm(`确认删除 ID 为 ${recordId} 的记录吗？`);
+
+            if (!confirmDelete) {
+                return;
+            }
+
+            const response = await fetch(`${API_BASE_URL}/records/${recordId}`, {
+                method: "DELETE"
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message);
+                loadSummary();
+                loadRecords();
+                loadExpenseByCategory();
+            } else {
+                alert(data.detail);
+            }
+        }
+
+        async function searchRecords() {
+            const keyword = document.getElementById("search-keyword").value.trim();
+
+            if (keyword === "") {
+                setMessage("search-message", "搜索关键词不能为空", "error");
+                return;
+            }
+
+            const response = await fetch(
+                `${API_BASE_URL}/records/search?keyword=${encodeURIComponent(keyword)}`
+            );
+            const data = await response.json();
+
+            if (response.ok) {
+                renderRecords(data.records);
+                setMessage(
+                    "search-message",
+                    `搜索完成，关键词：${keyword}，共找到 ${data.records.length} 条记录`,
+                    "success"
+                );
+            } else {
+                setMessage("search-message", data.detail, "error");
+            }
+        }
+
+        async function filterByDateRange() {
+            const startDate = document.getElementById("start-date").value;
+            const endDate = document.getElementById("end-date").value;
+
+            if (startDate === "" || endDate === "") {
+                setMessage("filter-message", "开始日期和结束日期不能为空", "error");
+                return;
+            }
+
+            if (startDate > endDate) {
+                setMessage("filter-message", "开始日期不能晚于结束日期", "error");
+                return;
+            }
+
+            const response = await fetch(
+                `${API_BASE_URL}/records/by-date-range?start_date=${startDate}&end_date=${endDate}`
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+                renderRecords(data.records);
+                setMessage(
+                    "filter-message",
+                    `日期筛选完成，共找到 ${data.records.length} 条记录`,
+                    "success"
+                );
+            } else {
+                setMessage("filter-message", data.detail, "error");
+            }
+        }
+
+        async function filterByAmountRange() {
+            const minAmountInput = document.getElementById("min-amount").value;
+            const maxAmountInput = document.getElementById("max-amount").value;
+
+            if (minAmountInput === "" || maxAmountInput === "") {
+                setMessage("filter-message", "最小金额和最大金额不能为空", "error");
+                return;
+            }
+
+            const minAmount = Number(minAmountInput);
+            const maxAmount = Number(maxAmountInput);
+
+            if (minAmount < 0 || maxAmount < 0) {
+                setMessage("filter-message", "金额不能小于 0", "error");
+                return;
+            }
+
+            if (minAmount > maxAmount) {
+                setMessage("filter-message", "最小金额不能大于最大金额", "error");
+                return;
+            }
+
+            const response = await fetch(
+                `${API_BASE_URL}/records/by-amount-range?min_amount=${minAmount}&max_amount=${maxAmount}`
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+                renderRecords(data.records);
+                setMessage(
+                    "filter-message",
+                    `金额筛选完成，共找到 ${data.records.length} 条记录`,
+                    "success"
+                );
+            } else {
+                setMessage("filter-message", data.detail, "error");
+            }
+        }
+
+        async function loadMonthSummary() {
+            const month = document.getElementById("summary-month").value;
+
+            if (month === "") {
+                setMessage("month-summary", "请选择月份", "error");
+                return;
+            }
+
+            const response = await fetch(`${API_BASE_URL}/summary/month?month=${month}`);
+            const data = await response.json();
+
+            if (response.ok) {
+                setMessage(
+                    "month-summary",
+                    `月份：${data.month} | 总收入：${formatMoney(data.income_total)} | 总支出：${formatMoney(data.expense_total)} | 本月余额：${formatMoney(data.balance)}`,
+                    "success"
+                );
+            } else {
+                setMessage("month-summary", data.detail, "error");
+            }
+        }
+
+        async function loadExpenseByCategory() {
+            const response = await fetch(`${API_BASE_URL}/summary/expense-by-category`);
+            const data = await response.json();
+
+            const tbody = document.getElementById("category-summary-body");
+            tbody.innerHTML = "";
+
+            if (response.ok) {
+                if (data.expense_by_category.length === 0) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td colspan="2">暂无分类支出统计数据</td>`;
+                    tbody.appendChild(row);
+                    return;
+                }
+
+                for (const item of data.expense_by_category) {
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${item.category}</td>
+                        <td>${formatMoney(item.total_expense)}</td>
+                    `;
+
+                    tbody.appendChild(row);
+                }
+            }
+        }
+
+        async function initializePage() {
+            await loadSummary();
+            await loadRecords();
+            await loadExpenseByCategory();
+        }
+
+        initializePage();
+    </script>
+</body>
+</html>
